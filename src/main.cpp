@@ -35,6 +35,8 @@ int buttonState1;
 int buttonState2;
 int delayStap = 50;
 
+String msg[3] = {};
+
 // pin variablen
 #define stap1_1 38
 #define stap1_2 40
@@ -115,12 +117,18 @@ void stappenMotor(int rotaties, int pin1, int pin2, int pin3, int pin4)
 
 void loop()
 {
+
   ldrWaarde = analogRead(LDR);
   mappedLdrWaarde = map(ldrWaarde, 0, 1023, 0, 255);
   pixels.setBrightness(mappedLdrWaarde);
   Serial.print("strip brightness: ");
   Serial.println(mappedLdrWaarde);
   setStrip(255, 255, 255);
+
+  char key = kpd.getKey();
+  if (kpd.getKeys)
+  {
+  }
 
   buttonState1 = digitalRead(button1);
   buttonState2 = digitalRead(button2);
