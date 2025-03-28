@@ -33,6 +33,7 @@ int ldrWaarde;
 int mappedLdrWaarde;
 int buttonState1;
 int buttonState2;
+int delayStap = 50;
 
 // pin variablen
 #define stap1_1 38
@@ -99,16 +100,16 @@ void stappenMotor(int rotaties, int pin1, int pin2, int pin3, int pin4)
   {
     digitalWrite(pin4, LOW);
     digitalWrite(pin1, HIGH);
-    delay(10);
+    delay(delayStap);
     digitalWrite(pin1, LOW);
     digitalWrite(pin2, HIGH);
-    delay(10);
+    delay(delayStap);
     digitalWrite(pin2, LOW);
     digitalWrite(pin3, HIGH);
-    delay(10);
+    delay(delayStap);
     digitalWrite(pin3, LOW);
     digitalWrite(pin4, HIGH);
-    delay(10);
+    delay(delayStap);
   }
 }
 
@@ -122,10 +123,16 @@ void loop()
   setStrip(255, 255, 255);
 
   buttonState1 = digitalRead(button1);
+  buttonState2 = digitalRead(button2);
   if (buttonState1 == LOW)
   {
     Serial.println("buttonPressed");
     setStrip(255, 0, 0);
-    stappenMotor(20, stap1_1, stap1_2, stap1_3, stap1_4);
+    stappenMotor(10, stap1_1, stap1_2, stap1_3, stap1_4);
+  }
+  if (buttonState2 == LOW)
+  {
+    setStrip(0, 0, 255);
+    stappenMotor(10, stap2_1, stap2_2, stap2_3, stap2_4);
   }
 }
