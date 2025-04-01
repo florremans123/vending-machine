@@ -35,7 +35,8 @@ int buttonState1;
 int buttonState2;
 int delayStap = 50;
 
-String msg[3] = {};
+String msg;
+String tempMsg;
 
 // pin variablen
 #define stap1_1 38
@@ -121,24 +122,31 @@ void loop()
   ldrWaarde = analogRead(LDR);
   mappedLdrWaarde = map(ldrWaarde, 0, 1023, 0, 255);
   pixels.setBrightness(mappedLdrWaarde);
-  Serial.print("strip brightness: ");
-  Serial.println(mappedLdrWaarde);
   setStrip(255, 255, 255);
 
   char key = kpd.getKey();
   if (kpd.getKeys)
   {
+    if (key != "#") {
+      tempMsg.append(key);
+      Serial.print("msg: ");
+      Serial.println(msg);
+    }
+    if (key == "#") {
+      msg = tempMsg;
+      tempMsg = "";
+    }
   }
 
   buttonState1 = digitalRead(button1);
   buttonState2 = digitalRead(button2);
-  if (buttonState1 == LOW)
+  if (buttonState1 == LOW or msg == "1A")
   {
     Serial.println("buttonPressed");
     setStrip(255, 0, 0);
     stappenMotor(10, stap1_1, stap1_2, stap1_3, stap1_4);
   }
-  if (buttonState2 == LOW)
+  if (buttonState2 == LOW or msg == "2A")
   {
     setStrip(0, 0, 255);
     stappenMotor(10, stap2_1, stap2_2, stap2_3, stap2_4);
