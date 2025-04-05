@@ -128,31 +128,18 @@ void loop()
   char key = kpd.getKey();
   if (key != NO_KEY)
   {
-    Serial.println(key);
-    if (key != '#')
-    {
-      tempMsg += key;
-      a++;
-      Serial.println(key);
-    }
-    if (key == '#')
-    {
-      msg = tempMsg;
-      tempMsg = "";
-      Serial.println(msg);
-    }
   }
 
   buttonState1 = digitalRead(button1);
   buttonState2 = digitalRead(button2);
-  if (buttonState1 == LOW or msg == "A1")
+  if (buttonState1 == LOW)
   {
     Serial.println("buttonPressed");
     setStrip(255, 0, 0);
     stappenMotor(10, stap1_1, stap1_2, stap1_3, stap1_4);
     msg = "";
   }
-  if (buttonState2 == LOW or msg == "A2")
+  if (buttonState2 == LOW)
   {
     setStrip(0, 0, 255);
     stappenMotor(10, stap2_1, stap2_2, stap2_3, stap2_4);
