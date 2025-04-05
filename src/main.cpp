@@ -34,8 +34,10 @@ int mappedLdrWaarde;
 int buttonState1;
 int buttonState2;
 int delayStap = 50;
+int a = 0;
 
-String msg[3] = {};
+String msg;
+String tempMsg;
 
 // pin variablen
 #define stap1_1 38
@@ -88,7 +90,7 @@ void setup()
 
 void setStrip(int color1, int color2, int color3)
 {
-  for (int i = 0; i < pixels.numPixels(); i++)
+  for (size_t i = 0; i < pixels.numPixels(); i++)
   {
     pixels.setPixelColor(i, pixels.Color(color1, color2, color3)); // Rood
     pixels.show();
@@ -98,7 +100,7 @@ void setStrip(int color1, int color2, int color3)
 
 void stappenMotor(int rotaties, int pin1, int pin2, int pin3, int pin4)
 {
-  for (int i; i <= rotaties; i++)
+  for (int i = 0; i <= rotaties; i++)
   {
     digitalWrite(pin4, LOW);
     digitalWrite(pin1, HIGH);
@@ -121,26 +123,39 @@ void loop()
   ldrWaarde = analogRead(LDR);
   mappedLdrWaarde = map(ldrWaarde, 0, 1023, 0, 255);
   pixels.setBrightness(mappedLdrWaarde);
-  Serial.print("strip brightness: ");
-  Serial.println(mappedLdrWaarde);
   setStrip(255, 255, 255);
 
   char key = kpd.getKey();
-  if (kpd.getKeys)
+  if (key != NO_KEY)
   {
+    Serial.println(key);
+    if (key != '#')
+    {
+      tempMsg += key;
+      a++;
+      Serial.println(key);
+    }
+    if (key == '#')
+    {
+      msg = tempMsg;
+      tempMsg = "";
+      Serial.println(msg);
+    }
   }
 
   buttonState1 = digitalRead(button1);
   buttonState2 = digitalRead(button2);
-  if (buttonState1 == LOW)
+  if (buttonState1 == LOW or msg == "A1")
   {
     Serial.println("buttonPressed");
     setStrip(255, 0, 0);
     stappenMotor(10, stap1_1, stap1_2, stap1_3, stap1_4);
+    msg = "";
   }
-  if (buttonState2 == LOW)
+  if (buttonState2 == LOW or msg == "A2")
   {
     setStrip(0, 0, 255);
     stappenMotor(10, stap2_1, stap2_2, stap2_3, stap2_4);
+    msg = "";
   }
 }
