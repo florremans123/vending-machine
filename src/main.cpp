@@ -64,7 +64,6 @@ void setup()
   // lcd setup
   lcd.init();
   lcd.backlight();
-  lcd.print("test");
 
   // Serial
   Serial.begin(9600);
@@ -88,11 +87,11 @@ void setup()
   }
 }
 
-void setStrip(int color1, int color2, int color3)
+void setStrip(int R, int G, int B)
 {
   for (size_t i = 0; i < pixels.numPixels(); i++)
   {
-    pixels.setPixelColor(i, pixels.Color(color1, color2, color3)); // Rood
+    pixels.setPixelColor(i, pixels.Color(R, G, B)); // Rood
     pixels.show();
     delay(50);
   }
@@ -147,14 +146,15 @@ void loop()
   buttonState2 = digitalRead(button2);
   if (buttonState1 == LOW or msg == "A1")
   {
-    Serial.println("buttonPressed");
     setStrip(255, 0, 0);
+    lcd.print("zoute chips");
     stappenMotor(10, stap1_1, stap1_2, stap1_3, stap1_4);
     msg = "";
   }
   if (buttonState2 == LOW or msg == "A2")
   {
     setStrip(0, 0, 255);
+    lcd.print("paprika chips");
     stappenMotor(10, stap2_1, stap2_2, stap2_3, stap2_4);
     msg = "";
   }
