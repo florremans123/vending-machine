@@ -35,6 +35,9 @@ int buttonState1;
 int buttonState2;
 int delayStap = 50;
 int a = 0;
+int notes[] = {NOTE_A4, NOTE_B4, NOTE_C3};
+
+float duration, distance;
 
 String msg;
 String tempMsg;
@@ -55,6 +58,9 @@ String tempMsg;
 
 #define LDR A0
 
+#define trigPin = 9;
+#define echoPin = 10;
+
 void setup()
 {
   // ledstrip
@@ -72,7 +78,8 @@ void setup()
   pinMode(button1, INPUT_PULLUP);
   pinMode(button2, INPUT_PULLUP);
   pinMode(stripPin, OUTPUT);
-
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
   for (int i = 39; i <= 45; i++)
   {
     pinMode(i, OUTPUT);
@@ -113,6 +120,21 @@ void stappenMotor(int rotaties, int pin1, int pin2, int pin3, int pin4)
     digitalWrite(pin3, LOW);
     digitalWrite(pin4, HIGH);
     delay(delayStap);
+  }
+}
+
+void ultrasone() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH),
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration * 0.0343) / 2;
+
+  if (distance < 40) {
+    tone(8, notes[1], 20);
   }
 }
 
