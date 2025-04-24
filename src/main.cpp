@@ -180,4 +180,6 @@ void loop()
     stappenMotor(10, stap2_1, stap2_2, stap2_3, stap2_4);
     msg = "";
   }
+
+  ultrasone()
 }
