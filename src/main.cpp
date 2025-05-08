@@ -193,7 +193,7 @@ void loop()
     setStrip(255, 0, 0);
     lcd.setCursor(0,1);
     lcd.print("zoute chips");
-    stappenMotor(10, stap1_1, stap1_2, stap1_3, stap1_4);
+    stepper1.step(stepsPerRevolution);
     msg = "";
     delay(100);
     ultrasone();
@@ -207,7 +207,7 @@ void loop()
     setStrip(0, 0, 255);
     lcd.setCursor(0,1);
     lcd.print("paprika chips");
-    stappenMotor(10, stap2_1, stap2_2, stap2_3, stap2_4);
+    stepper2.step(stepsPerRevolution);
     msg = "";
     delay(100);
     ultrasone();
