@@ -2,6 +2,8 @@
 #include <Keypad.h>
 #include <Adafruit_NeoPixel.h>
 #include <LiquidCrystal_I2C.h>
+#include <Wire.h>
+
 
 // Keypad Setup
 const byte ROWS = 4;
@@ -35,7 +37,6 @@ int buttonState1;
 int buttonState2;
 int delayStap = 50;
 int a = 0;
-int notes[] = {NOTE_A4, NOTE_B4, NOTE_C3};
 
 float duration, distance;
 
@@ -58,8 +59,8 @@ String tempMsg;
 
 #define LDR A0
 
-#define trigPin = 9;
-#define echoPin = 10;
+#define trigPin 9
+#define echoPin 10
 
 void setup()
 {
@@ -134,7 +135,7 @@ void ultrasone() {
   distance = (duration * 0.0343) / 2;
 
   if (distance < 40) {
-    tone(8, notes[1], 20);
+    tone(8, 440, 20);
   }
 }
 
@@ -144,7 +145,7 @@ void loop()
   ldrWaarde = analogRead(LDR);
   mappedLdrWaarde = map(ldrWaarde, 0, 1023, 0, 255);
   pixels.setBrightness(mappedLdrWaarde);
-  setStrip(255, 255, 255);
+  
 
   char key = kpd.getKey();
   if (key != NO_KEY)
@@ -172,6 +173,9 @@ void loop()
     lcd.print("zoute chips");
     stappenMotor(10, stap1_1, stap1_2, stap1_3, stap1_4);
     msg = "";
+    delay(100);
+    ultrasone();
+    setStrip(255, 255, 255);
   }
   if (buttonState2 == LOW or msg == "A2")
   {
@@ -179,7 +183,9 @@ void loop()
     lcd.print("paprika chips");
     stappenMotor(10, stap2_1, stap2_2, stap2_3, stap2_4);
     msg = "";
+    delay(100);
+    ultrasone();
+    setStrip(255, 255, 255);
   }
-
-  ultrasone()
+  //ultrasone();
 }
