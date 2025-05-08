@@ -71,6 +71,8 @@ void setup()
   // lcd setup
   lcd.init();
   lcd.backlight();
+  lcd.setCursor(0,0);
+  lcd.print("Vending Machine")
 
   // Serial
   Serial.begin(9600);
