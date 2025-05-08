@@ -66,13 +66,18 @@ void setup()
 {
   // ledstrip
   pixels.begin();
+  for (size_t i = 0; i < pixels.numPixels(); i++)
+  {
+    pixels.setPixelColor(i, pixels.Color(255, 255, 255)); // wit
+  }
   pixels.show();
+
 
   // lcd setup
   lcd.init();
   lcd.backlight();
   lcd.setCursor(0,0);
-  lcd.print("Vending Machine")
+  lcd.print("Vending Machine");
 
   // Serial
   Serial.begin(9600);
@@ -148,6 +153,7 @@ void loop()
   mappedLdrWaarde = map(ldrWaarde, 0, 1023, 0, 255);
   pixels.setBrightness(mappedLdrWaarde);
   
+  
 
   char key = kpd.getKey();
   if (key != NO_KEY)
@@ -158,12 +164,18 @@ void loop()
       tempMsg += key;
       a++;
       Serial.println(key);
+      lcd.setCursor(a,4);
+      lcd.print(key);
     }
     if (key == '#')
     {
       msg = tempMsg;
       tempMsg = "";
       Serial.println(msg);
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("Vending Machine");
+      a = 0;
     }
   }
 
@@ -172,22 +184,30 @@ void loop()
   if (buttonState1 == LOW or msg == "A1")
   {
     setStrip(255, 0, 0);
+    lcd.setCursor(0,1);
     lcd.print("zoute chips");
     stappenMotor(10, stap1_1, stap1_2, stap1_3, stap1_4);
     msg = "";
     delay(100);
     ultrasone();
     setStrip(255, 255, 255);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Vending Machine");
   }
   if (buttonState2 == LOW or msg == "A2")
   {
     setStrip(0, 0, 255);
+    lcd.setCursor(0,1);
     lcd.print("paprika chips");
     stappenMotor(10, stap2_1, stap2_2, stap2_3, stap2_4);
     msg = "";
     delay(100);
     ultrasone();
     setStrip(255, 255, 255);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Vending Machine");
   }
   //ultrasone();
 }
