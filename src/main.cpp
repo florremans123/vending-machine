@@ -3,7 +3,12 @@
 #include <Adafruit_NeoPixel.h>
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
+#include <Stepper.h>
 
+//stapenmotoren setup
+const int stepsPerRevolution = 200;
+Stepper stepper1(stepsPerRevolution, 38, 40, 42, 44);
+Stepper stepper2(stepsPerRevolution, 39, 41, 43, 45);
 
 // Keypad Setup
 const byte ROWS = 4;
@@ -70,8 +75,10 @@ void setup()
   {
     pixels.setPixelColor(i, pixels.Color(255, 255, 255)); // wit
   }
-  pixels.show();
+  pixels.show();y
 
+  // stepper
+  stepper1.setSpeed(60);
 
   // lcd setup
   lcd.init();
