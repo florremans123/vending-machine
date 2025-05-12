@@ -7,8 +7,8 @@
 
 //stapenmotoren setup
 const int stepsPerRevolution = 200;
-Stepper stepper1(stepsPerRevolution, 38, 40, 42, 44);
-Stepper stepper2(stepsPerRevolution, 39, 41, 43, 45);
+Stepper stepper1(stepsPerRevolution, 38, 42, 40, 44); // IN1, IN3, IN2, IN4
+Stepper stepper2(stepsPerRevolution, 39, 43, 41, 45); // IN1, IN3, IN2, IN4
 
 // Keypad Setup
 const byte ROWS = 4;
@@ -75,10 +75,11 @@ void setup()
   {
     pixels.setPixelColor(i, pixels.Color(255, 255, 255)); // wit
   }
-  pixels.show();y
+  pixels.show();
 
   // stepper
   stepper1.setSpeed(60);
+  stepper2.setSpeed(60);
 
   // lcd setup
   lcd.init();
@@ -194,6 +195,11 @@ void loop()
     lcd.setCursor(0,1);
     lcd.print("zoute chips");
     stepper1.step(stepsPerRevolution);
+    stepper1.step(stepsPerRevolution);
+    stepper1.step(stepsPerRevolution);
+    stepper1.step(stepsPerRevolution);
+    stepper1.step(stepsPerRevolution);
+    stepper1.step(stepsPerRevolution);
     msg = "";
     delay(100);
     ultrasone();
@@ -207,6 +213,11 @@ void loop()
     setStrip(0, 0, 255);
     lcd.setCursor(0,1);
     lcd.print("paprika chips");
+    stepper2.step(stepsPerRevolution);
+    stepper2.step(stepsPerRevolution);
+    stepper2.step(stepsPerRevolution);
+    stepper2.step(stepsPerRevolution);
+    stepper2.step(stepsPerRevolution);
     stepper2.step(stepsPerRevolution);
     msg = "";
     delay(100);
