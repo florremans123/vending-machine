@@ -49,16 +49,6 @@ String msg;
 String tempMsg;
 
 // pin variablen
-#define stap1_1 38
-#define stap1_2 40
-#define stap1_3 42
-#define stap1_4 44
-
-#define stap2_1 39
-#define stap2_2 41
-#define stap2_3 43
-#define stap2_4 45
-
 #define button1 52
 #define button2 53
 
@@ -110,6 +100,7 @@ void setup()
   }
 }
 
+//functie voor ledstrip van kleur te veranderen
 void setStrip(int R, int G, int B)
 {
   for (size_t i = 0; i < pixels.numPixels(); i++)
@@ -120,25 +111,7 @@ void setStrip(int R, int G, int B)
   }
 }
 
-void stappenMotor(int rotaties, int pin1, int pin2, int pin3, int pin4)
-{
-  for (int i = 0; i <= rotaties; i++)
-  {
-    digitalWrite(pin4, LOW);
-    digitalWrite(pin1, HIGH);
-    delay(delayStap);
-    digitalWrite(pin1, LOW);
-    digitalWrite(pin2, HIGH);
-    delay(delayStap);
-    digitalWrite(pin2, LOW);
-    digitalWrite(pin3, HIGH);
-    delay(delayStap);
-    digitalWrite(pin3, LOW);
-    digitalWrite(pin4, HIGH);
-    delay(delayStap);
-  }
-}
-
+// functie voor ultrasone sensor lezen en toon starten
 void ultrasone() {
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -194,13 +167,14 @@ void loop()
     setStrip(255, 0, 0);
     lcd.setCursor(0,1);
     lcd.print("zoute chips");
+    // for loop werkt niet
     stepper1.step(stepsPerRevolution);
     stepper1.step(stepsPerRevolution);
     stepper1.step(stepsPerRevolution);
     stepper1.step(stepsPerRevolution);
     stepper1.step(stepsPerRevolution);
     stepper1.step(stepsPerRevolution);
-    msg = "";
+    msg = "";   // maak msg leeg voor volgende 
     delay(100);
     ultrasone();
     setStrip(255, 255, 255);
@@ -213,13 +187,14 @@ void loop()
     setStrip(0, 0, 255);
     lcd.setCursor(0,1);
     lcd.print("paprika chips");
+    // for loop werkt niet
     stepper2.step(stepsPerRevolution);
     stepper2.step(stepsPerRevolution);
     stepper2.step(stepsPerRevolution);
     stepper2.step(stepsPerRevolution);
     stepper2.step(stepsPerRevolution);
     stepper2.step(stepsPerRevolution);
-    msg = "";
+    msg = "";   // maak msg leeg voor volgende 
     delay(100);
     ultrasone();
     setStrip(255, 255, 255);
@@ -227,5 +202,4 @@ void loop()
     lcd.setCursor(0,0);
     lcd.print("Vending Machine");
   }
-  //ultrasone();
 }
