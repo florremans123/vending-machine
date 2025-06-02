@@ -127,6 +127,16 @@ void ultrasone() {
   }
 }
 
+void partyMode() {
+  for(int i; i < 10; i++){
+    int red = random(0, 255);
+    int green = random(0, 255);
+    int blue = random(0, 255);
+
+    setStrip(red, green, blue);
+  }
+}
+
 void loop()
 {
 
@@ -201,5 +211,8 @@ void loop()
     lcd.clear();
     lcd.setCursor(0,0);
     lcd.print("Vending Machine");
+  }
+  if (msg == "04062203ABC") {
+    partyMode();
   }
 }
