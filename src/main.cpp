@@ -115,7 +115,7 @@ void setStrip(int R, int G, int B)
 void ultrasone() {
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH),
+  digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
 
@@ -128,7 +128,7 @@ void ultrasone() {
 }
 
 void partyMode() {
-  for(int i; i < 10; i++){
+  for(int i = 0; i < 10; i++){
     int red = random(0, 255);
     int green = random(0, 255);
     int blue = random(0, 255);
@@ -144,8 +144,6 @@ void loop()
   mappedLdrWaarde = map(ldrWaarde, 0, 1023, 0, 255);
   pixels.setBrightness(mappedLdrWaarde);
   
-  
-
   char key = kpd.getKey();
   if (key != NO_KEY)
   {
