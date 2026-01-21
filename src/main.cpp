@@ -140,6 +140,7 @@ void partyMode() {
     setStrip(red, green, blue);
     Serial.println(i);
   }
+  setStrip(255, 255, 255);
 }
 
 void loop()
