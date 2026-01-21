@@ -36,6 +36,7 @@ LiquidCrystal_I2C lcd(0x3F, 20, 4);
 // algemene variablen
 String zChips = "1A";
 String pChips = "2A";
+String pass = "1234"
 int ldrWaarde;
 int mappedLdrWaarde;
 int buttonState1;
@@ -210,7 +211,7 @@ void loop()
     lcd.setCursor(0,0);
     lcd.print("Vending Machine");
   }
-  if (msg == "04062203ABC") {
+  if (msg == pass) {
     partyMode();
   }
 }
