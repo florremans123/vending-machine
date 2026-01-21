@@ -4,11 +4,18 @@
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
 #include <Stepper.h>
+#include <HCSR04.h>
 
-//stapenmotoren setup
+//stappenmotoren setup
 const int stepsPerRevolution = 200;
 Stepper stepper1(stepsPerRevolution, 38, 42, 40, 44); // IN1, IN3, IN2, IN4
 Stepper stepper2(stepsPerRevolution, 39, 43, 41, 45); // IN1, IN3, IN2, IN4
+
+//ultrasone
+#define trigPin 9
+#define echoPin 10
+
+UltraSonicDistanceSensor ultraSone(trigPin, echoPin);
 
 // Keypad Setup
 const byte ROWS = 4;
@@ -36,7 +43,7 @@ LiquidCrystal_I2C lcd(0x3F, 20, 4);
 // algemene variablen
 String zChips = "1A";
 String pChips = "2A";
-String pass = "1234"
+String pass = "1234";
 int ldrWaarde;
 int mappedLdrWaarde;
 int buttonState1;
@@ -55,8 +62,7 @@ String tempMsg;
 
 #define LDR A0
 
-#define trigPin 9
-#define echoPin 10
+#define buzzerPin 19
 
 void setup()
 {
@@ -113,28 +119,26 @@ void setStrip(int R, int G, int B)
 }
 
 // functie voor ultrasone sensor lezen en toon starten
-void ultrasone() {
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-
-  duration = pulseIn(echoPin, HIGH);
-  distance = (duration * 0.0343) / 2;
-
-  if (distance < 40) {
-    tone(8, 440, 20);
+void checkItem() {
+  distance = ultraSone.measureDistanceCm();
+  Serial.println(distance);
+  if (distance <= 30)
+  {
+    tone(buzzerPin, 1000);
+  }
+  else {
+    noTone(buzzerPin);
   }
 }
 
 void partyMode() {
-  for(int i = 0; i < 10; i++){
+  for(int i = 0; i < 7; i++){
     int red = random(0, 255);
     int green = random(0, 255);
     int blue = random(0, 255);
 
     setStrip(red, green, blue);
+    Serial.println(i);
   }
 }
 
@@ -171,7 +175,7 @@ void loop()
 
   buttonState1 = digitalRead(button1);
   buttonState2 = digitalRead(button2);
-  if (buttonState1 == LOW or msg == "A1")
+  if (buttonState1 == LOW or msg == zChips)
   {
     setStrip(255, 0, 0);
     lcd.setCursor(0,1);
@@ -185,13 +189,12 @@ void loop()
     stepper1.step(stepsPerRevolution);
     msg = "";   // maak msg leeg voor volgende 
     delay(100);
-    ultrasone();
     setStrip(255, 255, 255);
     lcd.clear();
     lcd.setCursor(0,0);
     lcd.print("Vending Machine");
   }
-  if (buttonState2 == LOW or msg == "A2")
+  if (buttonState2 == LOW or msg == pChips)
   {
     setStrip(0, 0, 255);
     lcd.setCursor(0,1);
@@ -205,13 +208,14 @@ void loop()
     stepper2.step(stepsPerRevolution);
     msg = "";   // maak msg leeg voor volgende 
     delay(100);
-    ultrasone();
     setStrip(255, 255, 255);
     lcd.clear();
     lcd.setCursor(0,0);
     lcd.print("Vending Machine");
   }
+  checkItem();
   if (msg == pass) {
     partyMode();
+    msg = "";
   }
 }
